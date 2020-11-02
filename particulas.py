@@ -1,4 +1,5 @@
 from particula import Particula
+import json
 
 class Particula_libreria:
     def __init__(self):
@@ -17,7 +18,26 @@ class Particula_libreria:
     def __str__(self):
         return "".join(
             str (particula) + '\n' for particula in self.__particulas
-        )            
+        )
+
+    def guardar(self, ubicacion):
+        try:
+            with open(ubicacion, 'w') as archivo:
+                lista = [particula.to_dict() for particula in self.__particulas]
+                json.dump(lista, archivo, indent=5)
+            return 1
+        except:
+            return 0
+
+    def abrir(self, ubicacion):
+        try:
+            with open(ubicacion, 'r') as archivo:
+                lista = json.load(archivo)
+                self.__particulas = [Particula(**particula) for particula in lista]
+            return 1
+        except:
+            return 0    
+
 
 #l01 = Particula(origen_x=3, origen_y=5, destino_x=5, destino_y=9, velocidad=45, red=123, green=456, blue=789, distancia=0)
 #l02 = Particula(3, 5, 5, 9, 45, 123, 456, 789, 0)

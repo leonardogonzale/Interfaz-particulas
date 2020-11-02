@@ -1,4 +1,4 @@
-from PySide2.QtWidgets import QMainWindow
+from PySide2.QtWidgets import QMainWindow, QFileDialog, QMessageBox
 from PySide2.QtCore import Slot
 from ui_mainwindow import Ui_MainWindow
 from particulas import Particula_libreria
@@ -13,7 +13,54 @@ class MainWindow(QMainWindow):
         self.ui.setupUi(self)
         self.ui.agregar_inicio_pushButton.clicked.connect(self.click_agregar_inicio)
         self.ui.agregar_final_pushButton.clicked.connect(self.click_agregar_final)
-        self.ui.mostrar_pushButton.clicked.connect(self.click_mostrar) 
+        self.ui.mostrar_pushButton.clicked.connect(self.click_mostrar)
+
+        self.ui.actionAbrir.triggered.connect(self.action_abrir_archivo)
+        self.ui.actionGuardar.triggered.connect(self.action_guardar_archivo)
+
+
+    @Slot()
+    def action_abrir_archivo(self):  
+        ubicacion = QFileDialog.getOpenFileName(
+            self,
+            'Abrir achivo',
+            '.',
+            'JSON (*.json)'
+        )[0]
+        if self.particulas.abrir(ubicacion):
+            QMessageBox.information(
+                self,
+                "Exito",
+                "Se abrió el archivo" + ubicacion
+            )
+        else:
+            QMessageBox.critical(
+                self,
+                "Error",
+                "Error al abrir el archivo " + ubicacion
+            )
+
+    @Slot()
+    def action_guardar_archivo(self):
+        ubicacion = QFileDialog.getSaveFileName(
+            self,
+            'Guardar Archivo',
+            '.',
+            'JSON (*.json)'
+        )[0]
+        print(ubicacion)
+        if self.particulas.guardar(ubicacion):
+            QMessageBox.information(
+                self,
+                "Éxito",
+                "Se pudo crear el archivo" + ubicacion
+            )
+        else:
+            QMessageBox.critical(
+                self,
+                "Error",
+                "No se pudo crear el archivo" + ubicacion
+            )   
 
     @Slot()
     def click_mostrar(self):
