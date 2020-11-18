@@ -1,4 +1,6 @@
-from PySide2.QtWidgets import QMainWindow, QFileDialog, QMessageBox, QTableWidgetItem
+from PySide2.QtWidgets import QMainWindow, QFileDialog, QMessageBox, QTableWidgetItem, QGraphicsScene
+from PySide2.QtGui import QPen, QColor, QTransform
+from random import randint
 from PySide2.QtCore import Slot
 from ui_mainwindow import Ui_MainWindow
 from particulas import Particula_libreria
@@ -21,13 +23,43 @@ class MainWindow(QMainWindow):
         self.ui.mostar_tabla_pushButton_2.clicked.connect(self.mostrar_tabla)
         self.ui.buscar_pushButton.clicked.connect(self.buscar_particula)
 
+        self.ui.dibujar.clicked.connect(self.dibujar)
+        self.ui.limpiar.clicked.connect(self.limpiar)
+        self.scene = QGraphicsScene()
+        self.ui.graphicsView.setScene(self.scene)
+
+    def wheelEvent(self, event):
+        if event.delta() > 0:
+            self.ui.graphicsView.scale(1.2, 1.2)
+        else:
+            self.ui.graphicsView.scale(0.8, 0.8)
+    
+    @Slot()
+    def dibujar(self):
+        pen = QPen()
+        pen.setWidth(2)
+        for particula in self.particulas:
+            r = particula.rojo
+            g = particula.verde
+            b = particula.azul
+            color = QColor(r, g, b)
+            pen.setColor(color)
+
+            self.scene.addEllipse(particula.origen_x, particula.origen_y, 4, 4, pen)
+            self.scene.addEllipse(particula.destino_x, particula.destino_y, 4, 4, pen)
+            self.scene.addLine(particula.origen_x, particula.origen_y, particula.destino_x, particula.destino_y, pen)
+    
+    @Slot()
+    def limpiar(self):
+        self.scene.clear()
+
     @Slot()
     def buscar_particula(self):
-        num = self.ui.buscar_lineEdit.text()
+        ID = self.ui.buscar_lineEdit.text()
 
         encontrado = False
         for particula in self.particulas:
-            if int(num) == particula.Id:
+            if ID == particula.Id:
                 self.ui.tabla.clear()
                 self.ui.tabla.setRowCount(1)
 
@@ -41,7 +73,7 @@ class MainWindow(QMainWindow):
                 rojo_widget = QTableWidgetItem(str (particula.rojo))
                 verde_widget = QTableWidgetItem(str (particula.verde))
                 azul_widget = QTableWidgetItem(str (particula.azul))
-                distancia_widget = QTableWidgetItem(str (particula.Distancia))
+                distancia_widget = QTableWidgetItem(str (particula.distancia))
 
                 self.ui.tabla.setItem(0, 0, id_widget)
                 self.ui.tabla.setItem(0, 1, origen_x_widget)
@@ -60,7 +92,7 @@ class MainWindow(QMainWindow):
             QMessageBox.warning(
                 self,
                 "Atención",
-                f'La particula con Id "{id}" no fue encontrada'
+                f'La particula con Id "{ID}" no fue encontrada'
             )
 
 
