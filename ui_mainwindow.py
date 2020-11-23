@@ -22,6 +22,8 @@ class Ui_MainWindow(object):
         self.actionAbrir.setObjectName(u"actionAbrir")
         self.actionGuardar = QAction(MainWindow)
         self.actionGuardar.setObjectName(u"actionGuardar")
+        self.actionOrdenar = QAction(MainWindow)
+        self.actionOrdenar.setObjectName(u"actionOrdenar")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.gridLayout_3 = QGridLayout(self.centralwidget)
@@ -225,10 +227,11 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuArchivo.menuAction())
         self.menuArchivo.addAction(self.actionAbrir)
         self.menuArchivo.addAction(self.actionGuardar)
+        self.menuArchivo.addAction(self.actionOrdenar)
 
         self.retranslateUi(MainWindow)
 
-        self.tabWidget.setCurrentIndex(2)
+        self.tabWidget.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -244,6 +247,7 @@ class Ui_MainWindow(object):
 #if QT_CONFIG(shortcut)
         self.actionGuardar.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+S", None))
 #endif // QT_CONFIG(shortcut)
+        self.actionOrdenar.setText(QCoreApplication.translate("MainWindow", u"Ordenar", None))
         self.groupBox.setTitle(QCoreApplication.translate("MainWindow", u"Capturar particulas", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Id", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"Origen en x", None))
