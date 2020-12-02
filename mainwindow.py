@@ -5,6 +5,9 @@ from PySide2.QtCore import Slot
 from ui_mainwindow import Ui_MainWindow
 from particulas import Particula_libreria
 from particula import Particula
+from random import randint
+from pprint import pprint
+from pprint import pformat
 
 
 class MainWindow(QMainWindow):
@@ -28,9 +31,13 @@ class MainWindow(QMainWindow):
         self.scene = QGraphicsScene()
         self.ui.graphicsView.setScene(self.scene)
 
-        self.ui.actionOrdenar.triggered.connect(self.action_ordenar_id) 
-        self.ui.actionOrdenar.triggered.connect(self.action_ordenar_distancia)
-        self.ui.actionOrdenar.triggered.connect(self.action_ordenar_velocidad)
+        self.ui.actionPor_id.triggered.connect(self.ordenar_id)
+        self.ui.actionPor_distancia.triggered.connect(self.ordenar_distancia)
+        self.ui.actionPor_velocidad.triggered.connect(self.ordenar_velocidad)
+
+        self.ui.actionMostrar_diccionario.triggered.connect(self.mostrar_diccionario)
+
+
 
     def wheelEvent(self, event):
         if event.delta() > 0:
@@ -39,9 +46,20 @@ class MainWindow(QMainWindow):
             self.ui.graphicsView.scale(0.8, 0.8)
 
 
+    @Slot()
+    def mostrar_diccionario(self):
+        self.ui.salida.clear()
+        self.ui.salida.insertPlainText(self.particulas.mostrar_diccionario())
+        QMessageBox.information(
+                self,
+                "Exito",
+                "Se imprimio el diccionario " 
+            )
+
+
 
     @Slot()
-    def action_ordenar_id(self):
+    def ordenar_id(self):
         self.ui.tabla.clear()
         self.ui.tabla.clear()
         headers = ["Id", "Origen_x", "Origen_y", "Destino_x", "Destino_y", "Velocidad", "Red", "Green", "Blue", "Distancia"]
@@ -82,7 +100,7 @@ class MainWindow(QMainWindow):
             self.ui.salida.insertPlainText(str(particula))
     
     @Slot()
-    def action_ordenar_distancia(self):
+    def ordenar_distancia(self):
         self.ui.tabla.clear()
         self.ui.tabla.clear()
         headers = ["Id", "Origen_x", "Origen_y", "Destino_x", "Destino_y", "Velocidad", "Red", "Green", "Blue", "Distancia"]
@@ -123,7 +141,7 @@ class MainWindow(QMainWindow):
             self.ui.salida.insertPlainText(str(particula))
     
     @Slot()
-    def action_ordenar_velocidad(self):
+    def ordenar_velocidad(self):
         self.ui.tabla.clear()
         self.ui.tabla.clear()
         headers = ["Id", "Origen_x", "Origen_y", "Destino_x", "Destino_y", "Velocidad", "Red", "Green", "Blue", "Distancia"]
