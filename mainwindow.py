@@ -36,6 +36,7 @@ class MainWindow(QMainWindow):
         self.ui.actionPor_velocidad.triggered.connect(self.ordenar_velocidad)
 
         self.ui.actionMostrar_diccionario.triggered.connect(self.mostrar_diccionario)
+        self.ui.actionBusqueda_de_Profundidad.triggered.connect(self.recorrido)
 
 
 
@@ -45,6 +46,30 @@ class MainWindow(QMainWindow):
         else:
             self.ui.graphicsView.scale(0.8, 0.8)
 
+    @Slot()
+    def recorrido(self):
+
+        self.particulas.bye_peso()
+        self.ui.salida.clear()
+
+        origenes = (self.ui.origen_x_spinBox.value(), self.ui.origen_y_spinBox.value())
+        recorrido = self.particulas.mostrar_recorrido(origenes)
+
+        print ("Profundidad")
+
+        self.ui.salida.insertPlainText("Profundidad" + '\n')
+        for i in recorrido:
+            self.ui.salida.insertPlainText(str(i) + '\n')
+            print(i)
+
+        recorrido_2 = self.particulas.mostrar_recorrido_2(origenes)
+
+        print ("\nAmplitud")
+
+        self.ui.salida.insertPlainText('\n'"Amplitud" + '\n')
+        for i in recorrido_2:
+            self.ui.salida.insertPlainText(str(i) + '\n')
+            print(i)
 
     @Slot()
     def mostrar_diccionario(self):

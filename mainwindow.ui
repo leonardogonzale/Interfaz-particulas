@@ -273,6 +273,7 @@
     <addaction name="actionGuardar"/>
     <addaction name="menuOrdenar"/>
     <addaction name="actionMostrar_diccionario"/>
+    <addaction name="actionBusqueda_de_Profundidad"/>
    </widget>
    <addaction name="menuArchivo"/>
   </widget>
@@ -311,6 +312,11 @@
   <action name="actionPor_distancia">
    <property name="text">
     <string>Por distancia</string>
+   </property>
+  </action>
+  <action name="actionBusqueda_de_Profundidad">
+   <property name="text">
+    <string>Busqueda de Profundidad y amplitud</string>
    </property>
   </action>
  </widget>
